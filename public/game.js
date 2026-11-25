@@ -16,17 +16,68 @@ function bg(){let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#101
 for(let i=0;i<18;i++){let x=i*55-8,h=90+(i%6)*34;ctx.fillStyle=i%3?'#171a24':'#22202a';ctx.fillRect(x,GROUND-h,48,h);ctx.fillStyle='#ffba4920';for(let yy=GROUND-h+14;yy<GROUND-12;yy+=22)for(let xx=x+8;xx<x+42;xx+=17)ctx.fillRect(xx,yy,8,10)}
 ctx.fillStyle='#b8363524';ctx.fillRect(0,220,W,90);ctx.fillStyle='#22232a';ctx.fillRect(0,GROUND,W,H-GROUND);ctx.fillStyle='#79614b';ctx.fillRect(0,GROUND,W,4);for(let i=0;i<12;i++){ctx.fillStyle='#d2b78b18';ctx.fillRect(i*90+15,GROUND+34,45,3)}
 ctx.fillStyle='#f7b542';ctx.font='bold 20px Arial';ctx.fillText('LAGOS • NO GREE LOSE',22,38);ctx.fillStyle='#e84245';ctx.font='bold 14px Arial';ctx.fillText('STREET FIGHT',W-130,38)}
-function drawF(p,f){ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.dir,1);const bob=p.grounded?Math.sin(p.walk*9)*2:0;ctx.translate(0,bob);ctx.globalAlpha=p.flash>0?.65:1;
-ctx.shadowColor=f.color;ctx.shadowBlur=8;ctx.lineWidth=12;ctx.lineCap='round';ctx.strokeStyle=f.color;
-let legSwing=Math.sin(p.walk*10)*12;ctx.beginPath();ctx.moveTo(-9,-35);ctx.lineTo(-12+legSwing,-10);ctx.lineTo(-18+legSwing,0);ctx.moveTo(9,-35);ctx.lineTo(12-legSwing,-10);ctx.lineTo(18-legSwing,0);ctx.stroke();ctx.shadowBlur=0;
-ctx.fillStyle=f.color;ctx.fillRect(-17,-75,34,40);ctx.fillStyle='#d9a37c';ctx.beginPath();ctx.arc(0,-91,17,0,Math.PI*2);ctx.fill();ctx.fillStyle='#16151b';ctx.fillRect(-18,-101,36,8);ctx.fillRect(-12,-91,5,3);ctx.fillRect(7,-91,5,3);
-if(/Baba Danfo|LASTMA|Checkpoint Officer/.test(f.name)){ctx.fillStyle=f.name==='Baba Danfo'?'#f4c342':'#ff8438';ctx.fillRect(-21,-111,42,9);ctx.fillRect(-15,-121,30,11)}
-else if(/Papa G\.O\.|Oga at the Top/.test(f.name)){ctx.fillStyle='#eee';ctx.beginPath();ctx.moveTo(-23,-109);ctx.lineTo(0,-126);ctx.lineTo(23,-109);ctx.fill()}
-else if(/Traditional Hunter|Suya Mallam/.test(f.name)){ctx.fillStyle='#4b3826';ctx.fillRect(-21,-106,42,10);ctx.fillRect(-18,-116,36,12)}
-else if(/Afrobeats Superstar|Alte Creative/.test(f.name)){ctx.fillStyle=f.color;ctx.fillRect(-24,-108,48,6);ctx.fillRect(-18,-117,36,10)}
-if(/Agbero King|Gym Bro|Vulcanizer/.test(f.name)){ctx.fillStyle=f.color;ctx.fillRect(-22,-77,44,14)}
-ctx.strokeStyle='#d9a37c';ctx.lineWidth=10;ctx.beginPath();let reach=p.attack>0?(p.attackType==='heavy'?43:57):p.block?-12:0;ctx.moveTo(-13,-66);ctx.lineTo(-28,-48);ctx.moveTo(13,-66);ctx.lineTo(32+reach,-50);ctx.stroke();
-if(p.superActive>0&&p.superType==='transform'){ctx.strokeStyle=f.color;ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,-70,48+Math.sin(p.walk*14)*4,0,Math.PI*2);ctx.stroke()}if(p.superActive>0&&p.superType==='summon'){ctx.globalAlpha=.45;ctx.fillStyle=f.color;ctx.beginPath();ctx.ellipse(-45,-35,20,45,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}if(p.block){ctx.strokeStyle='#6ce9ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(20,-56,32,-1.2,1.2);ctx.stroke()}
+function drawF(p,f){
+const n=f.name, skin=({ "Iya Loja":"#8d5739","Papa G.O.":"#9b6546","Suya Mallam":"#8a573b","Traditional Hunter":"#75472f","Naija Aunty":"#a56b4a","Mama Put":"#9b6342","Yoruba Demon":"#d9a27b","Afrobeats Superstar":"#b97852"})[n]||"#9b684a";
+const accent=({ "Baba Danfo":"#f7d64a","Iya Loja":"#f4a53b","Agbero King":"#f2c044","Yoruba Demon":"#f3e5ca","Cyber Hustler":"#8affef","NEPA Official":"#f4f4f4","LASTMA Officer":"#fff0a5","Papa G.O.":"#f4e7c8","Mama Put":"#f6b0ca","Nollywood Villain":"#d4b6a0","Naija Aunty":"#f5d27a","Suya Mallam":"#d8b18a","Gym Bro":"#c7f3ff","Alte Creative":"#ffb6f4","Checkpoint Officer":"#b5d6b2","Oga at the Top":"#d8e9ff","Vulcanizer":"#d9d9d9","Street Hawker":"#ffe0a0","Traditional Hunter":"#b7d68a","Afrobeats Superstar":"#ffe1fa"})[n]||"#f2c18e";
+const torso=({ "Baba Danfo":44,"Iya Loja":34,"Agbero King":46,"Yoruba Demon":38,"Cyber Hustler":35,"NEPA Official":39,"LASTMA Officer":38,"Papa G.O.":45,"Mama Put":39,"Nollywood Villain":37,"Naija Aunty":42,"Suya Mallam":38,"Gym Bro":54,"Alte Creative":35,"Checkpoint Officer":41,"Oga at the Top":42,"Vulcanizer":52,"Street Hawker":36,"Traditional Hunter":42,"Afrobeats Superstar":40})[n]||38;
+ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.dir,1);const bob=p.grounded?Math.sin(p.walk*9)*2:0;ctx.translate(0,bob);ctx.globalAlpha=p.flash>0?.65:1;
+const swing=Math.sin(p.walk*10)*12, limb='#2b2221';
+ctx.lineCap='round';ctx.lineJoin='round';
+// legs, pants and shoes
+ctx.strokeStyle=limb;ctx.lineWidth=15;ctx.beginPath();ctx.moveTo(-9,-36);ctx.lineTo(-12+swing,-10);ctx.lineTo(-18+swing,0);ctx.moveTo(9,-36);ctx.lineTo(12-swing,-10);ctx.lineTo(18-swing,0);ctx.stroke();
+ctx.strokeStyle=({ "Iya Loja":"#68412f","Baba Danfo":"#20242b","Agbero King":"#24262d","Gym Bro":"#293846","Traditional Hunter":"#4b3826","Suya Mallam":"#60432e","Oga at the Top":"#18263b","Papa G.O.":"#eee8df","Alte Creative":"#433044"})[n]||"#2e3035";ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(-12,-36);ctx.lineTo(-12+swing,-9);ctx.moveTo(12,-36);ctx.lineTo(12-swing,-9);ctx.stroke();
+ctx.fillStyle='#16181d';ctx.fillRect(-23+swing,-3,17,6);ctx.fillRect(8-swing,-3,17,6);
+// costume body shapes
+ctx.fillStyle=f.color;ctx.beginPath();ctx.moveTo(-torso/2,-76);ctx.lineTo(-torso/2-5,-43);ctx.lineTo(torso/2+5,-43);ctx.lineTo(torso/2,-76);ctx.closePath();ctx.fill();
+if(/Iya Loja|Mama Put|Naija Aunty/.test(n)){ctx.fillStyle=accent;ctx.beginPath();ctx.moveTo(-19,-58);ctx.lineTo(-28,-34);ctx.lineTo(28,-34);ctx.lineTo(19,-58);ctx.closePath();ctx.fill();ctx.strokeStyle='#ffe6a2';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,-57);ctx.lineTo(18,-38);ctx.moveTo(18,-57);ctx.lineTo(-18,-38);ctx.stroke()}
+if(n==='Baba Danfo'){ctx.fillStyle='#20242a';ctx.fillRect(-21,-69,42,10);ctx.fillStyle='#f4d144';ctx.fillRect(-17,-75,34,5);ctx.fillRect(-17,-48,34,5);ctx.fillStyle='#fff';ctx.font='bold 7px Arial';ctx.fillText('LAGOS',-14,-61)}
+if(n==='Agbero King'){ctx.fillStyle='#202027';ctx.fillRect(-24,-74,48,14);ctx.strokeStyle='#f1d054';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-12,-74);ctx.lineTo(4,-47);ctx.lineTo(16,-74);ctx.stroke();ctx.fillStyle='#e9c74b';ctx.beginPath();ctx.arc(0,-48,4,0,Math.PI*2);ctx.fill()}
+if(n==='Yoruba Demon'){ctx.fillStyle='#eee0c8';ctx.fillRect(-22,-74,44,5);ctx.fillStyle='#a72c38';ctx.fillRect(-2,-72,4,30);ctx.fillStyle='#e5c89a';ctx.beginPath();ctx.arc(18,-66,5,0,Math.PI*2);ctx.fill()}
+if(n==='Cyber Hustler'){ctx.strokeStyle='#86ffec';ctx.lineWidth=3;ctx.strokeRect(-18,-70,36,25);ctx.fillStyle='#132d31';ctx.fillRect(-14,-66,28,17);ctx.fillStyle='#86ffec';ctx.fillRect(-10,-62,20,2);ctx.fillRect(-10,-57,13,2);ctx.fillRect(-10,-52,17,2}
+if(n==='NEPA Official'){ctx.fillStyle='#eee';ctx.fillRect(-22,-73,44,6);ctx.fillStyle='#222';ctx.fillRect(-3,-72,6,28);ctx.fillStyle='#f2cf4a';ctx.fillRect(-22,-52,44,4)}
+if(n==='LASTMA Officer'||n==='Checkpoint Officer'){ctx.fillStyle='#ffe17a';ctx.fillRect(-20,-71,40,9);ctx.fillStyle='#263b32';ctx.fillRect(-15,-72,6,30);ctx.fillRect(9,-72,6,30);ctx.fillStyle='#fff';ctx.fillRect(-22,-46,44,5)}
+if(n==='Papa G.O.'){ctx.fillStyle='#eee9e0';ctx.fillRect(-22,-77,44,9);ctx.fillStyle='#b69b6b';ctx.fillRect(-2,-72,4,30);ctx.beginPath();ctx.arc(0,-46,5,0,Math.PI*2);ctx.fill()}
+if(n==='Mama Put'){ctx.fillStyle='#fff0e2';ctx.fillRect(-20,-74,40,10);ctx.fillStyle='#ef9b45';ctx.fillRect(-20,-48,40,5);ctx.fillStyle='#6a432e';ctx.beginPath();ctx.arc(0,-45,5,0,Math.PI*2);ctx.fill()}
+if(n==='Nollywood Villain'){ctx.fillStyle='#111';ctx.fillRect(-23,-75,46,7);ctx.fillStyle='#b52c3a';ctx.beginPath();ctx.moveTo(0,-72);ctx.lineTo(10,-47);ctx.lineTo(0,-52);ctx.lineTo(-10,-47);ctx.fill();ctx.strokeStyle='#eee';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-17,-61);ctx.lineTo(-6,-59);ctx.moveTo(6,-59);ctx.lineTo(17,-61);ctx.stroke()}
+if(n==='Naija Aunty'){ctx.fillStyle='#f7d28b';ctx.beginPath();ctx.moveTo(-25,-77);ctx.lineTo(0,-91);ctx.lineTo(25,-77);ctx.lineTo(19,-69);ctx.lineTo(-19,-69);ctx.fill();ctx.strokeStyle='#e7a34c';ctx.lineWidth=2;ctx.stroke()}
+if(n==='Suya Mallam'){ctx.fillStyle='#4d3527';ctx.fillRect(-22,-78,44,10);ctx.fillRect(-17,-86,34,10);ctx.fillStyle='#c48b54';ctx.fillRect(-20,-49,40,4)}
+if(n==='Gym Bro'){ctx.fillStyle='#f3f3f3';ctx.fillRect(-20,-72,40,5);ctx.fillStyle='#111';ctx.fillRect(-10,-71,20,27);ctx.strokeStyle='#f1d16a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-15,-49);ctx.lineTo(15,-49);ctx.stroke()}
+if(n==='Alte Creative'){ctx.fillStyle='#24202a';ctx.fillRect(-22,-76,44,9);ctx.fillStyle='#f4b5ff';ctx.fillRect(-14,-70,6,25);ctx.fillRect(8,-70,6,25);ctx.strokeStyle='#ff8be8';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-17,-46);ctx.lineTo(17,-46);ctx.stroke()}
+if(n==='Oga at the Top'){ctx.fillStyle='#dbe8f7';ctx.fillRect(-22,-76,44,8);ctx.fillStyle='#17304c';ctx.beginPath();ctx.moveTo(-10,-72);ctx.lineTo(0,-46);ctx.lineTo(10,-72);ctx.fill();ctx.fillStyle='#d5b64e';ctx.fillRect(-22,-47,44,3)}
+if(n==='Vulcanizer'){ctx.fillStyle='#333';ctx.fillRect(-22,-75,44,13);ctx.strokeStyle='#d0d0d0';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,-59,12,0,Math.PI*2);ctx.stroke()}
+if(n==='Street Hawker'){ctx.fillStyle='#ffe4aa';ctx.fillRect(-22,-73,44,8);ctx.fillStyle='#efc35a';ctx.fillRect(-18,-48,36,5);ctx.fillStyle='#4d3220';ctx.beginPath();ctx.arc(18,-45,5,0,Math.PI*2);ctx.fill()}
+if(n==='Traditional Hunter'){ctx.fillStyle='#4b3826';ctx.beginPath();ctx.moveTo(-23,-77);ctx.lineTo(-18,-86);ctx.lineTo(0,-91);ctx.lineTo(18,-86);ctx.lineTo(23,-77);ctx.fill();ctx.strokeStyle='#b8d68b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-20,-72);ctx.lineTo(20,-48);ctx.moveTo(20,-72);ctx.lineTo(-20,-48);ctx.stroke()}
+if(n==='Afrobeats Superstar'){ctx.fillStyle='#16151e';ctx.fillRect(-23,-76,46,8);ctx.fillStyle='#ff49b8';ctx.fillRect(-18,-70,5,24);ctx.fillRect(13,-70,5,24);ctx.strokeStyle='#f6d65b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,-49,10,0,Math.PI*2);ctx.stroke()}
+// arms with character-specific gauntlets and props
+const armColor=skin, reach=p.attack>0?(p.attackType==='heavy'?43:57):p.block?-12:0;
+ctx.strokeStyle=armColor;ctx.lineWidth=10;ctx.beginPath();ctx.moveTo(-torso/2+2,-67);ctx.lineTo(-28,-48);ctx.moveTo(torso/2-2,-67);ctx.lineTo(32+reach,-50);ctx.stroke();
+ctx.fillStyle=f.color;ctx.fillRect(-34,-53,12,8);ctx.fillRect(25+reach,-55,12,8);
+if(/Baba Danfo|LASTMA Officer|Checkpoint Officer/.test(n)){ctx.fillStyle=accent;ctx.fillRect(-23,-112,46,10);ctx.fillStyle='#222';ctx.fillRect(-15,-122,30,11);ctx.fillStyle='#ffe';ctx.fillRect(-8,-119,16,3)}
+else if(/Papa G\.O\.|Oga at the Top/.test(n)){ctx.fillStyle='#eee';ctx.beginPath();ctx.moveTo(-25,-109);ctx.lineTo(0,-128);ctx.lineTo(25,-109);ctx.fill();ctx.fillStyle='#d1b66a';ctx.fillRect(-15,-112,30,3)}
+else if(/Traditional Hunter/.test(n)){ctx.fillStyle='#4b3826';ctx.beginPath();ctx.moveTo(-24,-108);ctx.lineTo(0,-119);ctx.lineTo(24,-108);ctx.fill();ctx.strokeStyle='#b6d68a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-20,-106);ctx.lineTo(20,-96);ctx.stroke()}
+else if(/Suya Mallam/.test(n)){ctx.fillStyle='#4d3527';ctx.fillRect(-21,-109,42,9);ctx.fillRect(-16,-118,32,11)}
+else if(/Afrobeats Superstar|Alte Creative/.test(n)){ctx.fillStyle='#181720';ctx.fillRect(-25,-109,50,6);ctx.fillStyle=accent;ctx.fillRect(-16,-118,32,10)}
+else if(/Iya Loja|Mama Put|Naija Aunty/.test(n)){ctx.fillStyle=accent;ctx.beginPath();ctx.moveTo(-25,-108);ctx.lineTo(0,-122);ctx.lineTo(25,-108);ctx.lineTo(18,-102);ctx.lineTo(-18,-102);ctx.fill()}
+else if(/Gym Bro/.test(n)){ctx.fillStyle='#24242a';ctx.fillRect(-25,-109,50,8);ctx.fillStyle='#48aaff';ctx.fillRect(-17,-117,34,9)}
+else if(/Agbero King/.test(n)){ctx.fillStyle='#222';ctx.fillRect(-23,-109,46,9);ctx.fillStyle='#e9c74b';ctx.fillRect(-12,-117,24,9)}
+else if(/Cyber Hustler/.test(n)){ctx.fillStyle='#111e28';ctx.fillRect(-23,-109,46,9);ctx.strokeStyle='#83ffeb';ctx.lineWidth=2;ctx.strokeRect(-17,-116,34,8)}
+// face, expressive features
+ctx.fillStyle=skin;ctx.beginPath();ctx.ellipse(0,-91,17,19,0,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#231a19';ctx.fillRect(-18,-101,36,7);ctx.fillRect(-12,-91,5,3);ctx.fillRect(7,-91,5,3);ctx.fillRect(-4,-85,8,2);
+if(/Papa G\.O\.|Suya Mallam|Oga at the Top|Traditional Hunter|Baba Danfo/.test(n)){ctx.fillStyle='#34231e';ctx.beginPath();ctx.arc(0,-80,10,0,Math.PI);ctx.fill()}
+if(/Cyber Hustler/.test(n)){ctx.strokeStyle='#67f7e8';ctx.lineWidth=3;ctx.strokeRect(-16,-94,12,8);ctx.strokeRect(4,-94,12,8);ctx.beginPath();ctx.moveTo(-4,-90);ctx.lineTo(4,-90);ctx.stroke()}
+if(/Nollywood Villain/.test(n)){ctx.fillStyle='#211';ctx.beginPath();ctx.moveTo(-17,-93);ctx.lineTo(-3,-91);ctx.lineTo(-9,-87);ctx.fill();ctx.beginPath();ctx.moveTo(17,-93);ctx.lineTo(3,-91);ctx.lineTo(9,-87);ctx.fill()}
+if(/Afrobeats Superstar|Alte Creative/.test(n)){ctx.fillStyle='#18151f';ctx.fillRect(-19,-102,38,5);ctx.fillStyle=accent;ctx.fillRect(-16,-105,6,5);ctx.fillRect(10,-105,6,5)}
+// signature prop, if not already attacking
+if(n==='Baba Danfo'){ctx.strokeStyle='#f7d64a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(34,-49);ctx.lineTo(48,-64);ctx.stroke();ctx.fillStyle='#f7d64a';ctx.beginPath();ctx.arc(50,-66,7,0,Math.PI*2);ctx.fill()}
+if(n==='Iya Loja'){ctx.fillStyle='#b88645';ctx.beginPath();ctx.ellipse(-34,-43,13,16,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#e5bd78';ctx.lineWidth=2;ctx.stroke()}
+if(n==='Street Hawker'){ctx.fillStyle='#e8a43c';ctx.fillRect(33+reach,-60,17,13);ctx.fillStyle='#5b3b23';ctx.fillRect(35+reach,-64,13,4)}
+if(n==='Traditional Hunter'){ctx.strokeStyle='#9b7b45';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(30,-40);ctx.lineTo(53,-91);ctx.stroke();ctx.strokeStyle='#b6d68a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(48,-91);ctx.lineTo(58,-87);ctx.stroke()}
+if(n==='Suya Mallam'){ctx.strokeStyle='#c98d4c';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(31,-50);ctx.lineTo(50,-62);ctx.stroke();ctx.fillStyle='#b34b32';ctx.fillRect(46,-65,10,5)}
+if(n==='Afrobeats Superstar'){ctx.fillStyle='#e6d15c';ctx.beginPath();ctx.ellipse(40+reach,-50,8,5,0,0,Math.PI*2);ctx.fill()}
+if(p.superActive>0&&p.superType==='transform'){ctx.strokeStyle=f.color;ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,-70,48+Math.sin(p.walk*14)*4,0,Math.PI*2);ctx.stroke()}
+if(p.superActive>0&&p.superType==='summon'){ctx.globalAlpha=.45;ctx.fillStyle=f.color;ctx.beginPath();ctx.ellipse(-45,-35,20,45,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
+if(p.block){ctx.strokeStyle='#6ce9ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(20,-56,32,-1.2,1.2);ctx.stroke()}
 if(p.attack>0){ctx.strokeStyle=(p.attackType==='special'||p.attackType==='super')?'#ffe66d':'#ffffff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(42,-53,35,-.9,.9);ctx.stroke()}
 if(p.hit>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,-60,43,0,Math.PI*2);ctx.stroke()}
 ctx.restore()}
