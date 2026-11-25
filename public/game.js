@@ -37,7 +37,7 @@ ctx.fillStyle=forest?'#c9f3a8':'#ffcf70';ctx.font='bold 14px Arial';ctx.fillText
 ctx.fillStyle='#e84245';ctx.font='bold 14px Arial';ctx.fillText('STREET FIGHT',W-130,58)}
 function roundBanner(){if(roundPause<=0)return;ctx.save();const fade=Math.min(1,roundPause*2);ctx.globalAlpha=fade;ctx.fillStyle='#05060a88';ctx.fillRect(0,0,W,H);ctx.textAlign='center';ctx.shadowColor='#ff4a42';ctx.shadowBlur=22;ctx.fillStyle='#ffd166';ctx.font='900 42px Impact,Arial Black';ctx.fillText('ROUND '+round,W/2,H/2-16);ctx.fillStyle='#fff';ctx.font='900 30px Impact,Arial Black';ctx.fillText(roundPause>.55?'GET READY':'FIGHT!',W/2,H/2+34);ctx.restore()}
 
-function drawF(p,f){
+function drawF(p,f){if(f?.name==='Baba Danfo'&&window.babaDanfoSprites?.draw(ctx,p))return;
 const n=f.name, skin=({"Iya Loja":"#9a6040","Papa G.O.":"#a76b49","Suya Mallam":"#905a3c","Traditional Hunter":"#75472f","Naija Aunty":"#a86c49","Mama Put":"#9e6341","Yoruba Demon":"#d7a17a","Afrobeats Superstar":"#b97852"})[n]||"#96603f";
 const accent=({"Baba Danfo":"#f5ce39","Iya Loja":"#f0a344","Agbero King":"#e7b942","Yoruba Demon":"#e8dcc7","Cyber Hustler":"#7df4e4","NEPA Official":"#f4f4f0","LASTMA Officer":"#ffe48b","Papa G.O.":"#f0e5cc","Mama Put":"#f4a8c7","Nollywood Villain":"#d2b5a2","Naija Aunty":"#f4cf75","Suya Mallam":"#d4aa80","Gym Bro":"#b9efff","Alte Creative":"#ffaef0","Checkpoint Officer":"#b8d5b6","Oga at the Top":"#d7e5f5","Vulcanizer":"#d3d5d5","Street Hawker":"#ffe0a0","Traditional Hunter":"#b6d487","Afrobeats Superstar":"#ffe1f6"})[n]||"#efbd86";
 const col=f.color||accent, isWoman=/Iya Loja|Mama Put|Naija Aunty/.test(n);
