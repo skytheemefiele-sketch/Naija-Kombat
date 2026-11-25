@@ -32,7 +32,7 @@ if(stageTheme==='gym'){ctx.strokeStyle='#b8d9f2';ctx.lineWidth=6;ctx.beginPath()
 if(cyber){ctx.strokeStyle='#34e9cf';ctx.lineWidth=2;for(let x=60;x<880;x+=80){ctx.beginPath();ctx.moveTo(x,90);ctx.lineTo(x,GROUND-15);ctx.stroke()}}
 for(let i=0;i<12;i++){ctx.fillStyle=forest?'#b4d99520':'#d2b78b18';ctx.fillRect(i*90+15,GROUND+34,45,3)}
 ctx.fillStyle='#f7b542';ctx.font='bold 20px Arial';ctx.fillText('LAGOS • NO GREE LOSE',22,38);
-ctx.fillStyle='#0b0c1299';ctx.fillRect(W-235,18,218,28);ctx.strokeStyle=forest?'#a8d98b':f.color||'#ff8d55';ctx.lineWidth=1;ctx.strokeRect(W-235,18,218,28);
+ctx.fillStyle='#0b0c1299';ctx.fillRect(W-235,18,218,28);ctx.strokeStyle=forest?'#a8d98b':(fighters[selected]?.color||'#ff8d55');ctx.lineWidth=1;ctx.strokeRect(W-235,18,218,28);
 ctx.fillStyle=forest?'#c9f3a8':'#ffcf70';ctx.font='bold 14px Arial';ctx.fillText(stageTitle,W-225,37);
 ctx.fillStyle='#e84245';ctx.font='bold 14px Arial';ctx.fillText('STREET FIGHT',W-130,58)}
 
