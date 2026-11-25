@@ -13,7 +13,7 @@ function start(cpu=true){view('arena');tryLandscape();playing=true;ai=cpu;second
 function roundReset(){p1=fighter(fighters[selected],210,1);p2=fighter(fighters[opponent],690,-1);p1.hp=p2.hp=100;seconds=60;roundPause=1.5}
 function bg(){let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#101629');sky.addColorStop(.62,'#33252e');sky.addColorStop(1,'#100f14');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
 // generated Lagos street silhouettes, windows and neon signs
-for(let i=0;i<18;i++){let x=i*55-8,h=90+(i%6)*34;ctx.fillStyle=i%3?'#171a24':'#22202a';ctx.fillRect(x,GROUND-h,48,h);ctx.fillStyle='#ffba4920';for(let yy=GROUND-h+14;yy<GROUND-12;yy+=22)for(let xx=x+8;xx<x+42;xx+=17)ctx.fillRect(xx,yy,8,10}
+for(let i=0;i<18;i++){let x=i*55-8,h=90+(i%6)*34;ctx.fillStyle=i%3?'#171a24':'#22202a';ctx.fillRect(x,GROUND-h,48,h);ctx.fillStyle='#ffba4920';for(let yy=GROUND-h+14;yy<GROUND-12;yy+=22)for(let xx=x+8;xx<x+42;xx+=17)ctx.fillRect(xx,yy,8,10)}
 ctx.fillStyle='#b8363524';ctx.fillRect(0,220,W,90);ctx.fillStyle='#22232a';ctx.fillRect(0,GROUND,W,H-GROUND);ctx.fillStyle='#79614b';ctx.fillRect(0,GROUND,W,4);for(let i=0;i<12;i++){ctx.fillStyle='#d2b78b18';ctx.fillRect(i*90+15,GROUND+34,45,3)}
 ctx.fillStyle='#f7b542';ctx.font='bold 20px Arial';ctx.fillText('LAGOS • NO GREE LOSE',22,38);ctx.fillStyle='#e84245';ctx.font='bold 14px Arial';ctx.fillText('STREET FIGHT',W-130,38)}
 function drawF(p,f){ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.dir,1);const bob=p.grounded?Math.sin(p.walk*9)*2:0;ctx.translate(0,bob);ctx.globalAlpha=p.flash>0?.65:1;
