@@ -1,1 +1,1 @@
-{"name":"naija-kombat","version":"0.1.0","type":"module","scripts":{"start":"node server.js"},"dependencies":{"express":"^4.21.2","socket.io":"^4.8.1"}}
+{"name":"naija-kombat","version":"0.2.0","type":"module","scripts":{"start":"node server.js"},"dependencies":{"bcryptjs":"^2.4.3","express":"^4.21.2","jsonwebtoken":"^9.0.2","pg":"^8.13.1","socket.io":"^4.8.1"}}
