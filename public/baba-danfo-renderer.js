@@ -14,7 +14,7 @@
     const skin='#9a6040', skinHi='#c4875c', skinShade='#6e422f';
     const gold='#f4c72f', yellow='#ffd84a', black='#17191d', dark='#242932';
     const cloth='#e0ad20', white='#f2e8cf';
-    ctx.save();ctx.translate(p.x,p.y+bob);ctx.scale(dir,1);
+    ctx.save();ctx.translate(p.x,p.y+bob);ctx.scale(dir*1.38,1.38);
     // shadow
     ctx.globalAlpha=jump?.22:.36;ctx.fillStyle='#050609';ctx.beginPath();ctx.ellipse(0,4,jump?25:34,jump?4:7,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
     if(down){ctx.rotate(-.9);ctx.translate(-2,-12)}
