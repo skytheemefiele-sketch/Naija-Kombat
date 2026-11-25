@@ -19,7 +19,7 @@
     ctx.globalAlpha=jump?.22:.36;ctx.fillStyle='#050609';ctx.beginPath();ctx.ellipse(0,4,jump?25:34,jump?4:7,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
     if(down){ctx.rotate(-.9);ctx.translate(-2,-12)}
     // Body proportions and state-specific pose
-    const lean=hit?-0.12:block?.06:attack?(type==='heavy'?.24:type==='super'?.36:.18):moving?(run?.08:.02):0;
+    const lean=hit ? -0.12 : block ? 0.06 : attack ? (type==='heavy'?0.24:type==='super'?0.36:0.18) : moving ? (run?0.08:0.02) : 0;
     ctx.translate(0,0);ctx.rotate(lean);
     const stride=moving&&ground?Math.sin(t*(run?13:9))*13:0;
     const crouch=block?5:0, airborne=jump?Math.max(0,-(p.vy||0)*.06):0;
@@ -34,8 +34,8 @@
       ctx.fillStyle=gold;ctx.fillRect(-11,40,22,3);
       ctx.restore();
     }
-    leg(-12,ground?stride*.012+legPose*.018:attack?.18:-.15);
-    leg(12,ground?-stride*.012-(attack?legPose*.012:0):.16);
+    leg(-12,ground ? stride*.012+legPose*.018 : attack ? 0.18 : -0.15);
+    leg(12,ground ? -stride*.012-(attack?legPose*.012:0) : 0.16);
     // belt/waist
     rounded(-26,-59+crouch,52,20,7);fillGrad(-26,-59,26,-39,'#17191d','#383b40');stroke('#0b0c0f',2);
     ctx.fillStyle=gold;ctx.fillRect(-23,-54,46,4);rounded(-8,-52,16,11,3);ctx.fillStyle=yellow;ctx.fill();stroke('#4b3510',1);
