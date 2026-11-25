@@ -40,7 +40,7 @@ function drawF(p,f){
 const n=f.name, skin=({ "Iya Loja":"#8d5739","Papa G.O.":"#9b6546","Suya Mallam":"#8a573b","Traditional Hunter":"#75472f","Naija Aunty":"#a56b4a","Mama Put":"#9b6342","Yoruba Demon":"#d9a27b","Afrobeats Superstar":"#b97852"})[n]||"#9b684a";
 const accent=({ "Baba Danfo":"#f7d64a","Iya Loja":"#f4a53b","Agbero King":"#f2c044","Yoruba Demon":"#f3e5ca","Cyber Hustler":"#8affef","NEPA Official":"#f4f4f4","LASTMA Officer":"#fff0a5","Papa G.O.":"#f4e7c8","Mama Put":"#f6b0ca","Nollywood Villain":"#d4b6a0","Naija Aunty":"#f5d27a","Suya Mallam":"#d8b18a","Gym Bro":"#c7f3ff","Alte Creative":"#ffb6f4","Checkpoint Officer":"#b5d6b2","Oga at the Top":"#d8e9ff","Vulcanizer":"#d9d9d9","Street Hawker":"#ffe0a0","Traditional Hunter":"#b7d68a","Afrobeats Superstar":"#ffe1fa"})[n]||"#f2c18e";
 const torso=({ "Baba Danfo":44,"Iya Loja":34,"Agbero King":46,"Yoruba Demon":38,"Cyber Hustler":35,"NEPA Official":39,"LASTMA Officer":38,"Papa G.O.":45,"Mama Put":39,"Nollywood Villain":37,"Naija Aunty":42,"Suya Mallam":38,"Gym Bro":54,"Alte Creative":35,"Checkpoint Officer":41,"Oga at the Top":42,"Vulcanizer":52,"Street Hawker":36,"Traditional Hunter":42,"Afrobeats Superstar":40})[n]||38;
-ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.dir,1);const bob=p.grounded?Math.sin(p.walk*9)*2:0;ctx.translate(0,bob);ctx.globalAlpha=p.flash>0?.65:1;
+ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.dir,1);const bob=p.grounded?Math.sin(p.walk*9)*2:0;ctx.translate(0,bob);if(p.attack>0&&p.attackType!=='block'){ctx.translate(p.attackType==='heavy'?9:p.attackType==='special'?14:p.attackType==='super'?20:5,0);ctx.rotate(p.attackType==='super'?.08:p.attackType==='special'?.045:0)}ctx.globalAlpha=p.flash>0?.65:1;
 const swing=Math.sin(p.walk*10)*12, limb='#2b2221';
 ctx.lineCap='round';ctx.lineJoin='round';
 // legs, pants and shoes
@@ -96,6 +96,8 @@ if(n==='Traditional Hunter'){ctx.strokeStyle='#9b7b45';ctx.lineWidth=4;ctx.begin
 if(n==='Suya Mallam'){ctx.strokeStyle='#c98d4c';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(31,-50);ctx.lineTo(50,-62);ctx.stroke();ctx.fillStyle='#b34b32';ctx.fillRect(46,-65,10,5)}
 if(n==='Afrobeats Superstar'){ctx.fillStyle='#e6d15c';ctx.beginPath();ctx.ellipse(40+reach,-50,8,5,0,0,Math.PI*2);ctx.fill()}
 if(p.superActive>0&&p.superType==='transform'){ctx.strokeStyle=f.color;ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,-70,48+Math.sin(p.walk*14)*4,0,Math.PI*2);ctx.stroke()}
+if(p.superActive>0&&p.superType!=='transform'&&p.superType!=='summon'){ctx.save();ctx.globalAlpha=.7;ctx.strokeStyle=f.color;ctx.lineWidth=4+Math.sin(p.walk*16)*2;ctx.beginPath();ctx.arc(0,-68,38+Math.sin(p.walk*12)*12,0,Math.PI*2);ctx.stroke();ctx.fillStyle=f.color;for(let q=0;q<6;q++){const a=p.walk*5+q*Math.PI/3;ctx.beginPath();ctx.arc(Math.cos(a)*52,-68+Math.sin(a)*52,4,0,Math.PI*2);ctx.fill()}ctx.restore()}
+if(p.attackType==='super'&&p.attack>0){ctx.save();ctx.globalAlpha=.8;ctx.fillStyle=f.color;ctx.shadowColor=f.color;ctx.shadowBlur=18;ctx.beginPath();ctx.moveTo(35,-78);ctx.lineTo(90,-58);ctx.lineTo(68,-40);ctx.lineTo(38,-44);ctx.closePath();ctx.fill();ctx.restore()}
 if(p.superActive>0&&p.superType==='summon'){ctx.globalAlpha=.45;ctx.fillStyle=f.color;ctx.beginPath();ctx.ellipse(-45,-35,20,45,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
 if(p.block){ctx.strokeStyle='#6ce9ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(20,-56,32,-1.2,1.2);ctx.stroke()}
 if(p.attack>0){ctx.strokeStyle=(p.attackType==='special'||p.attackType==='super')?'#ffe66d':'#ffffff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(42,-53,35,-.9,.9);ctx.stroke()}
