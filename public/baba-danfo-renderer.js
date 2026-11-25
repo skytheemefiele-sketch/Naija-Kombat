@@ -7,7 +7,7 @@
     const hit=p.hit>0||p.stun>.18, block=!!p.block;
     const attack=p.attack>0, type=p.attackType||'light';
     const jump=!ground, down=p.knockdown||p.down||p.hp<=0;
-    const phase=attack?clamp(p.attack,0,1):0;
+    const duration=type==='super'?.48:type==='special'?.24:type==='heavy'?.24:.24;\n    const phase=attack?clamp(1-(p.attack/duration),0,1):0;
     const pulse=Math.sin(t*5.4), breath=Math.sin(t*2.6);
     let bob=ground?(moving?Math.abs(Math.sin(t*(run?13:9)))*3:breath*1.6):0;
     if(hit)bob-=3; if(down)bob=0;
@@ -19,12 +19,12 @@
     ctx.globalAlpha=jump?.22:.36;ctx.fillStyle='#050609';ctx.beginPath();ctx.ellipse(0,4,jump?25:34,jump?4:7,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
     if(down){ctx.rotate(-.9);ctx.translate(-2,-12)}
     // Body proportions and state-specific pose
-    const lean=hit ? -0.12 : block ? 0.06 : attack ? (type==='heavy'?0.24:type==='super'?0.36:0.18) : moving ? (run?0.08:0.02) : 0;
+    const lean=hit ? -0.22 : block ? 0.08 : attack ? (type==='heavy'?0.28:type==='super'?0.48:type==='special'?0.35:0.22)*Math.sin(phase*Math.PI) : moving ? (run?0.10:0.03) : 0;
     ctx.translate(0,0);ctx.rotate(lean);
     const stride=moving&&ground?Math.sin(t*(run?13:9))*13:0;
     const crouch=block?5:0, airborne=jump?Math.max(0,-(p.vy||0)*.06):0;
     // legs with knees, boots
-    const legPose=attack?(type==='heavy'?22:type==='super'?32:14):0;
+    const legPose=attack?(type==='heavy'?38:type==='super'?48:type==='special'?26:12)*Math.sin(phase*Math.PI):0;
     function leg(x,angle,skinPart=false){
       ctx.save();ctx.translate(x,-48+crouch);ctx.rotate(angle);
       rounded(-10,-2,20,27,7);fillGrad(-10,-2,10,24,dark,'#3b414a');stroke('#101216',2);
@@ -57,7 +57,7 @@
       let shoulderX=side*27, shoulderY=-99, elbowX=side*40, elbowY=-78, wristX=side*33,wristY=-57;
       let armAngle=side===1?-.24:.28;
       if(block){elbowX=side*24;elbowY=-119;wristX=side*12;wristY=-126}
-      else if(attack){const ext=type==='heavy'?1.15:type==='super'?1.35:1;
+      else if(attack){const ext=type==='heavy'?1.3:type==='super'?1.65:type==='special'?1.45:1.2;
         if(side===1){elbowX=34+phase*18;elbowY=-83-phase*9;wristX=49+phase*39*ext;wristY=-86-phase*9-(type==='super'?16:0)}
         else {elbowX=-39;elbowY=-77;wristX=-34;wristY=-56}
       }else if(hit){elbowX=side*20;elbowY=-91;wristX=side*13;wristY=-76}
