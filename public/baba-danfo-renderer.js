@@ -7,7 +7,8 @@
     const hit=p.hit>0||p.stun>.18, block=!!p.block;
     const attack=p.attack>0, type=p.attackType||'light';
     const jump=!ground, down=p.knockdown||p.down||p.hp<=0;
-    const duration=type==='super'?.48:type==='special'?.24:type==='heavy'?.24:.24;\n    const phase=attack?clamp(1-(p.attack/duration),0,1):0;
+    const duration=type==='super'?.48:type==='special'?.24:type==='heavy'?.24:.24;
+    const phase=attack?clamp(1-(p.attack/duration),0,1):0;
     const pulse=Math.sin(t*5.4), breath=Math.sin(t*2.6);
     let bob=ground?(moving?Math.abs(Math.sin(t*(run?13:9)))*3:breath*1.6):0;
     if(hit)bob-=3; if(down)bob=0;
