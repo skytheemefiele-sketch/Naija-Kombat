@@ -102,7 +102,7 @@
     if(attack&&(type==='special'||type==='super')){
       const power=type==='super'?1.7:1;
       ctx.globalAlpha=.5+.3*Math.sin(t*22);ctx.strokeStyle=type==='super'?'#fff1a3':gold;ctx.lineWidth=type==='super'?7:4;
-      ctx.beginPath();ctx.arc(wristX||44,-83,26*power,-1.5,.8);ctx.stroke();
+      ctx.beginPath();ctx.arc(52,-83,26*power,-1.5,.8);ctx.stroke();
       ctx.globalAlpha=.85;ctx.fillStyle=yellow;ctx.beginPath();ctx.moveTo(50,-84);ctx.lineTo(68,-98);ctx.lineTo(65,-84);ctx.lineTo(84,-76);ctx.lineTo(60,-67);ctx.closePath();ctx.fill();
     }
     if(p.superActive>0){ctx.globalAlpha=.2+.12*Math.sin(t*12);ctx.strokeStyle=gold;ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(0,-68,38,60,0,0,Math.PI*2);ctx.stroke();}
