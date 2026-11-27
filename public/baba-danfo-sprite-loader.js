@@ -69,9 +69,9 @@
     const n=counts[file]||1, time=(p.walk||0);
     let idx=Math.floor(time*(fps[state]||8))%n;
     if(state==='light'||state==='heavy'||state==='kick'||state==='sweep'||state==='special'||state==='uppercut'||state==='super'||state==='hit'||state==='getup') {
-      const total=state==='super'?.65:state==='special'?.38:state==='heavy'?.34:.28;
+      const total=state==='super'?(p.attackDuration||1.02):state==='special'?.38:state==='heavy'?.42:.28;
       const remaining=Math.max(0,p.attack||p.stun||0);
-      const progress=remaining>0?Math.max(0,Math.min(1,1-remaining/total)):((time*(fps[state]||8))%1);
+      const progress=remaining>0?Math.max(0,Math.min(1,1-remaining/total)):1;
       idx=Math.min(n-1,Math.floor(progress*n));
     }
     const scale=1.28, width=SIZE.w*scale, height=SIZE.h*scale, x=p.x, y=p.y;
