@@ -18,6 +18,23 @@
   const counts = {};
   const images = {};
   let ready = false, failed = false, loadPromise;
+  function normalizeStrip(img) {
+    const n=Math.max(1,Math.round(img.width/SIZE.w)), frames=[], temp=document.createElement('canvas');
+    temp.width=SIZE.w;temp.height=SIZE.h;const t=temp.getContext('2d',{willReadFrequently:true});
+    let maxW=1,maxH=1;
+    for(let i=0;i<n;i++){
+      t.clearRect(0,0,SIZE.w,SIZE.h);t.drawImage(img,i*SIZE.w,0,SIZE.w,SIZE.h,0,0,SIZE.w,SIZE.h);
+      const data=t.getImageData(0,0,SIZE.w,SIZE.h).data;let minX=SIZE.w,minY=SIZE.h,maxX=-1,maxY=-1;
+      for(let y=0;y<SIZE.h;y++)for(let x=0;x<SIZE.w;x++)if(data[(y*SIZE.w+x)*4+3]>12){if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y}
+      if(maxX<0){frames.push(null);continue}
+      const box={x:minX,y:minY,w:maxX-minX+1,h:maxY-minY+1};frames.push(box);maxW=Math.max(maxW,box.w);maxH=Math.max(maxH,box.h);
+    }
+    const out=document.createElement('canvas');out.width=n*SIZE.w;out.height=SIZE.h;const o=out.getContext('2d');
+    o.imageSmoothingEnabled=true;o.imageSmoothingQuality='high';
+    const fit=Math.min(1,SIZE.w/maxW,SIZE.h/maxH);
+    frames.forEach((b,i)=>{if(!b)return;const dw=b.w*fit,dh=b.h*fit,dx=i*SIZE.w+(SIZE.w-dw)/2,dy=SIZE.h-dh;o.drawImage(img,i*SIZE.w+b.x,b.y,b.w,b.h,dx,dy,dw,dh)});
+    return out;
+  }
   async function unzip() {
     const res = await fetch(ZIP_URL);
     if (!res.ok) throw new Error('Sprite pack HTTP '+res.status);
@@ -36,7 +53,7 @@
         } else if(method!==0) throw new Error('Unsupported ZIP compression '+method);
         const blob=new Blob([raw],{type:'image/png'}), img=new Image();
         img.src=URL.createObjectURL(blob); await img.decode();
-        images[name]=img; counts[name]=Math.max(1,Math.round(img.width/SIZE.w));
+        const normalized=normalizeStrip(img); images[name]=normalized; counts[name]=Math.max(1,Math.round(normalized.width/SIZE.w));
       }
       off=start+csize;
     }
