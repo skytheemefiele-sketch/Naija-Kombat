@@ -7,3 +7,11 @@ body.arena-mode header{display:none}body.arena-mode main{max-width:none;margin:0
 .move-preview{margin:14px 0;padding:16px;background:#191920;border:1px solid #41414b;border-radius:8px}.move-preview h3{margin:0 0 10px;color:#ffd166}.move-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:7px}.move-grid span{padding:8px;background:#24242c;border-radius:5px;font-size:13px}.move-grid b{color:#ff6d61}.ultimate{margin-bottom:0;color:#bcbcc8}.ultimate b{color:#ffd166}body.arena-mode .mobile>div:last-child{display:flex;flex-wrap:wrap;justify-content:flex-end;max-width:55vw}body.arena-mode .mobile button[data-hit=super]{background:#ac7131;border:1px solid #ffda67;font-size:clamp(10px,2vh,15px)}body.arena-mode .mobile button[data-hit=special]{background:#69394a}
 
 #exitFight{position:absolute;z-index:25;top:8px;right:10px;background:#3a2025;border:1px solid #ff655c;color:#fff;padding:7px 10px;font-size:11px;letter-spacing:.5px}body.arena-mode #exitFight{top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right))}#arena{position:relative}
+
+/* Cleaner, separated touch controls */
+body.arena-mode .mobile{gap:12px;justify-content:space-between;align-items:flex-end}
+body.arena-mode .mobile>div:last-child{display:grid;grid-template-columns:repeat(3,minmax(44px,1fr));gap:7px;max-width:min(48vw,330px);align-items:center}
+body.arena-mode .mobile button{margin:0;width:clamp(44px,7.5vh,66px);height:clamp(44px,7.5vh,66px);padding:3px;white-space:nowrap;line-height:1}
+body.arena-mode .mobile button[data-hit=super]{grid-column:span 2;width:100%;border-radius:22px;letter-spacing:.4px}
+body.arena-mode .mobile button[data-hit=jump],body.arena-mode .mobile button[data-hit=block]{font-size:clamp(10px,1.8vh,14px)}
+@media(max-width:700px){body.arena-mode .mobile>div:last-child{max-width:55vw;grid-template-columns:repeat(3,minmax(40px,1fr));gap:5px}}
